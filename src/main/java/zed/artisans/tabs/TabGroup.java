@@ -4,25 +4,37 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TabGroup extends ItemGroup {
 
-	private final List<ItemStack> itemsInGroup;
+	private final Tab tab;
 
-	public TabGroup(final String label) {
-		super(label);
-		this.itemsInGroup = new ArrayList<>();
+	public TabGroup(final Tab tab) {
+		super(tab.getGroupLabel());
+		this.tab = tab;
 	}
 
 	@Override
 	public ItemStack createIcon() {
-		return null;
+		return tab.getTabIcon();
 	}
 
 	@Override
 	public void fill(NonNullList<ItemStack> items) {
-		items.addAll(this.itemsInGroup);
+		items.addAll(this.tab.getItemsInTab());
+	}
+
+	@Override
+	public boolean hasSearchBar() {
+		return tab.isCanSearch();
+	}
+
+	@Override
+	public int getLabelColor() {
+		return tab.getLabelColor();
+	}
+
+	@Override
+	public int getSlotColor() {
+		return tab.getSlotColor();
 	}
 }

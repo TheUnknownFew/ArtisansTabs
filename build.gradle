@@ -509,7 +509,7 @@ repositories {
     name 'MMD'
     url 'https://maven.mcmoddev.com/'
   }
-  flatDir { dirs 'testmods' }
+  // flatDir { dirs 'testmods' }
 }
 
 dependencies {
