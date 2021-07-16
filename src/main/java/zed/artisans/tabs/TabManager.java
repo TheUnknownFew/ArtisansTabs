@@ -4,14 +4,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.profiler.EmptyProfiler;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +15,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class TabGroupManager extends JsonReloadListener {
+public class TabManager extends JsonReloadListener {
 	// Resource Pack Structure:
 	// assets/artisans_tabs/lang/en_us.lang # Contains the translations for the tab names
 	// assets/artisans_tabs/tabs/tabs.json  # Contains teh json specifications for creative tabs in the resource pack.
@@ -31,7 +27,7 @@ public class TabGroupManager extends JsonReloadListener {
 	private boolean isFinalized;
 
 
-	public TabGroupManager() {
+	public TabManager() {
 		// super param #1: GSON Builder, super param #2: Resource folder location
 		super((new GsonBuilder()).setPrettyPrinting().create(), "tabset");
 		this.defaultTabCount = -1;
@@ -64,8 +60,7 @@ public class TabGroupManager extends JsonReloadListener {
 	private void makeTabs() {
 		resetTabsToDefault(this.defaultTabCount);
 		for (final Entry<ResourceLocation, JsonElement> tabSpec : this.loadedTabPacks.entrySet()) {
-			final ResourceLocation key = tabSpec.getKey();
-			new TabGroup(new Tab(key.getNamespace(), key.getPath(), tabSpec.getValue().getAsJsonObject()));
+			new TabGroup(TabData.parseFromJson(tabSpec.getValue()));
 		}
 	}
 

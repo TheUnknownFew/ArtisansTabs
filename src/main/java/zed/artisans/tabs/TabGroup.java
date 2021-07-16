@@ -5,36 +5,35 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
 public class TabGroup extends ItemGroup {
+	private final TabData tabData;
 
-	private final Tab tab;
-
-	public TabGroup(final Tab tab) {
-		super(tab.getGroupLabel());
-		this.tab = tab;
+	public TabGroup(final TabData tabData) {
+		super(tabData.getLabel());
+		this.tabData = tabData;
 	}
 
 	@Override
 	public ItemStack createIcon() {
-		return tab.getTabIcon();
+		return this.tabData.getIcon();
 	}
 
 	@Override
 	public void fill(NonNullList<ItemStack> items) {
-		items.addAll(this.tab.getItemsInTab());
+		items.addAll(this.tabData.getItemsInTab());
 	}
 
 	@Override
 	public boolean hasSearchBar() {
-		return tab.isCanSearch();
+		return this.tabData.hasSearchBar();
 	}
 
 	@Override
 	public int getLabelColor() {
-		return tab.getLabelColor();
+		return this.tabData.getLabelColor();
 	}
 
 	@Override
 	public int getSlotColor() {
-		return tab.getSlotColor();
+		return this.tabData.getSlotColor();
 	}
 }
