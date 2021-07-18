@@ -26,12 +26,8 @@ public class TabCreator extends DisplayEffectsScreen<TabCreator.TabCreatorContai
 	private static final Inventory BUFFER_INV = new Inventory(TOTAL_SLOTS);
 	private static final ResourceLocation BACKGROUND = new ResourceLocation("textures/gui/container/creative_inventory/tab_items.png");
 
-	private boolean isFocused = false;
-	private CreativeScreen creativeScreen;
-
 	public TabCreator(final PlayerEntity player, final CreativeScreen creativeScreen) {
 		super(new TabCreator.TabCreatorContainer(player), player.inventory, StringTextComponent.EMPTY);
-		this.creativeScreen = creativeScreen;
 		this.ySize = 136;
 		this.xSize = 195;
 	}
@@ -39,7 +35,6 @@ public class TabCreator extends DisplayEffectsScreen<TabCreator.TabCreatorContai
 	@Override
 	public void init(final Minecraft minecraft, final int width, final int height) {
 		super.init(minecraft, width, height);
-		this.creativeScreen.init(minecraft, width, height);
 	}
 
 	@Override

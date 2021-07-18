@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.command.CommandSource;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.resources.IResourceManager;
-import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import zed.artisans.commands.DisplayNBTCommand;
-import zed.artisans.gui.TabCreator;
+import zed.artisans.gui.button.OpenCreatorButton;
 import zed.artisans.tabs.TabManager;
 
 @Mod("artisans_tabs")
@@ -31,7 +31,7 @@ public class ModRegistry {
 	}
 
 	private void startClient(final FMLClientSetupEvent event) {
-		IResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+		final IResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 		this.tabManager.setupTabManager(resourceManager);
 		((IReloadableResourceManager) resourceManager).addReloadListener(this.tabManager);
 	}
@@ -47,10 +47,10 @@ public class ModRegistry {
 	}
 
 	@SubscribeEvent
-	public void onCreativeScreenOpened(final GuiOpenEvent event) {
+	public void onCreativeScreenInitialized(final GuiScreenEvent.InitGuiEvent.Post event) {
 		final Screen screen = event.getGui();
 		if (screen instanceof CreativeScreen) {
-			event.setGui(new TabCreator(Minecraft.getInstance().player, (CreativeScreen) screen));
+			event.addWidget(new OpenCreatorButton((CreativeScreen) screen));
 		}
 	}
 }
